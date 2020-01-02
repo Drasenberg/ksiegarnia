@@ -1,0 +1,23 @@
+<h1 mat-dialog-title>Edytuj książkę pod tytułem {{ books.title }}</h1>
+<div mat-dialog-content>
+  <mat-form-field value="x" style="min-width: 450px;">
+    <input matInput [(ngModel)]="data.author" #author>
+  </mat-form-field>
+</div>
+<div mat-dialog-content>
+    <mat-form-field  style="min-width: 450px;">
+      <input matInput [(ngModel)]="data.title"
+      placeholder="Wpisz tytuł" #tytul>
+    </mat-form-field>
+  </div>
+  <div mat-dialog-content>
+    <mat-form-field  style="min-width: 450px; min-height: 125px;">
+      <textarea rows="6" cols="20" matInput [(ngModel)]="data.description"
+      placeholder="Opis" #opis></textarea>
+    </mat-form-field>
+  </div>
+<div mat-dialog-actions>
+  <button class="btn btn-secondary" (click)="onNoClick()">Zamknij</button>
+  <button class="btn btn-primary" (click)="onUpdateBook(data.key, data.author, data.title, data.description)" cdkFocusInitial>Zapisz</button>
+</div>
+
