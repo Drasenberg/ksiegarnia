@@ -15,6 +15,7 @@ import { AngularFireModule } from '@angular/fire';
 import { AngularFireDatabaseModule } from '@angular/fire/database';
 import { environment } from '../environments/environment';
 import { EditBookModalComponent } from './edit-book-modal/edit-book-modal.component';
+import { FooterComponent } from './footer/footer.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import { EditBookModalComponent } from './edit-book-modal/edit-book-modal.compon
     HeaderComponent,
     BooksComponent,
     ModalPopoutComponent,
-    EditBookModalComponent
+    EditBookModalComponent,
+    FooterComponent
   ],
   imports: [
     BrowserModule,

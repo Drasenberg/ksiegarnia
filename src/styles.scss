@@ -26,11 +26,10 @@ body {
         grid-template-columns: auto auto auto;
         gap: 1rem;
     }
+    .main-books{
+        min-height: 750px;
+    }
 
-}
-
-.main-modal {
-    min-width: 250px;
 }
 
 

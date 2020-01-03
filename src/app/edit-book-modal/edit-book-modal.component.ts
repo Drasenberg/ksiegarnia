@@ -1,5 +1,5 @@
 import { Component, OnInit, Inject, ViewChild } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+import { MatDialogRef, MAT_DIALOG_DATA, throwMatDialogContentAlreadyAttachedError } from '@angular/material';
 import { Book } from '../shared/book.model';
 import { BooksConnectService } from '../serverConnection/booksConnect.service';
 import { Observable } from 'rxjs';
@@ -7,6 +7,7 @@ import { AngularFireList, AngularFireDatabase, AngularFireObject } from '@angula
 import { map } from 'rxjs/operators';
 import { database } from 'firebase';
 import { keyOfBook } from '../shared/keyofbook.service';
+import { stringify } from 'querystring';
 
 @Component({
   selector: 'app-edit-book-modal',
@@ -16,9 +17,9 @@ import { keyOfBook } from '../shared/keyofbook.service';
 export class EditBookModalComponent implements OnInit {
 
   books: Observable<any[]>;
-  itemsRef: AngularFireList<any>;
+  itemsRef: AngularFireObject<any>;
   items: Observable<any[]>;
-  book: AngularFireObject<Book>;
+  book: any;
   key: string;
   path: string;
   constructor(
@@ -26,19 +27,18 @@ export class EditBookModalComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: Book, private bookDBConnect: BooksConnectService,
     public db: AngularFireDatabase, private keyOfBook: keyOfBook) 
   {
-    this.itemsRef = db.list('books');
-    // Use snapshotChanges().map() to store the key
-    this.books = this.itemsRef.snapshotChanges().pipe(
-      map(changes => 
-        changes.map(c => ({ key: c.payload.key, ...c.payload.val() }))
-      )
-    );
     this.key = this.keyOfBook.key;
-    this.book = db.object(this.key);
-    console.log(this.key);
+    this.itemsRef = this.getBookRef(this.key);
+    this.book = this.getBookRef(this.key).valueChanges();
+    console.log(data.author);
+    
    }
  
-  
+   getBookRef(id: string) {
+    const path = `/books/${id}`;
+    return this.db.object(path);
+  }
+
   onNoClick(): void {
     this.dialogRef.close();
   }
@@ -47,9 +47,11 @@ export class EditBookModalComponent implements OnInit {
 
   }
 
-  onUpdateBook(key: string, author: string, title: string, description: string){
-      this.itemsRef.update(key, { author: this.data.author, title: this.data.title, description: this.data.description });
-    }
+  onUpdateBook(author: string, title: string, description: string){
+    const postData: Book = {title: title, author: author, description: description};
+    this.itemsRef.update(postData);
+  }
+
 
   onClear(){
     const title = '';

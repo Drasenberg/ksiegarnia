@@ -23,10 +23,18 @@ export class ModalPopoutComponent implements OnInit {
   ngOnInit() {
   }
 
-  onAddBook(){
-    // this.bookDBConnect.createAndStorePost(this.data.title, this.data.author, this.data.description);
-    // this.itemsRef = this.db('books').
-    this.dialogRef.close();
+  onAddBook(title: any, author: any, description: any){     
+    if(title == ''){
+      console.log('Nie wpisałeś tytułu');
+    } else if(author == ''){
+      console.log('Nie wpisałeś autora');
+    } else if(description == ''){
+      console.log('Nie wpisałeś opisu');
+    }
+     else {
+      this.bookDBConnect.createAndStorePost(this.data.title, this.data.author, this.data.description);
+      this.dialogRef.close();
+    }
   }
   onClear(){
     const title = '';

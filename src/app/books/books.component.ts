@@ -30,13 +30,7 @@ export class BooksComponent implements OnInit {
       map(changes => 
         changes.map(c => ({ key: c.payload.key, ...c.payload.val() }))
       )
-    );
-    this.Book = db.list<Book>('books').snapshotChanges().pipe(
-      map(changes => 
-        changes.map(c => ({ key: c.payload.key, ...c.payload.exportVal() }))
-      ));
-    console.log(this.Book);
-    
+    );    
    }
 
   ngOnInit() {
@@ -55,7 +49,7 @@ export class BooksComponent implements OnInit {
     dialogRef.afterClosed().subscribe(res => {
       this.book = res;
     });
-    }
+  }
 
   onDeleteBook(key: string){
       this.db.list('books').remove(key);

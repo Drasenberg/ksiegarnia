@@ -5,6 +5,7 @@ import { map } from 'rxjs/operators';
 
 @Injectable({providedIn: 'root'})
 export class BooksConnectService{
+    response: any;
     constructor(private http: HttpClient){
     
 
@@ -17,8 +18,7 @@ export class BooksConnectService{
           postData
         )
         .subscribe(responseData => {
-          console.log(responseData);
-          console.log('https://ksiegarnia-76725.firebaseio.com/books.json' + name);
+          this.response = responseData;
         });
     }
 
